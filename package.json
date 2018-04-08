@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Operational Transformation type for using SlateJS together with ShareDB",
   "main": "index.js",
+  "files": ["index.js"],
   "repository": "git@github.com:ksimons/ot-slatejs.git",
   "author": "Kevin Simons <kevin.b.simons@gmail.com>",
   "license": "MIT",
