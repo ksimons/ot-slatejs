@@ -22,26 +22,26 @@ class Selection {
   get leftPath() {
     return this.isBackward ? this.focusPath : this.anchorPath;
   }
-  set leftPath(path) {
-    this[this.isBackward ? 'focusPath' : 'anchorPath'] = path;
+  withLeftPath(path) {
+    return new Selection(Object.assign({}, this, { [this.isBackward ? 'focusPath' : 'anchorPath']: path }));
   }
   get leftOffset() {
     return this.isBackward ? this.focusOffset : this.anchorOffset;
   }
-  set leftOffset(offset) {
-    this[this.isBackward ? 'focusOffset' : 'anchorOffset'] = offset;
+  withLeftOffset(offset) {
+    return new Selection(Object.assign({}, this, { [this.isBackward ? 'focusOffset' : 'anchorOffset']: offset }));
   }
   get rightPath() {
     return this.isBackward ? this.anchorPath : this.focusPath;
   }
-  set rightPath(path) {
-    this[this.isBackward ? 'anchorPath' : 'focusPath'] = path;
+  withRightPath(path) {
+    return new Selection(Object.assign({}, this, { [this.isBackward ? 'anchorPath' : 'focusPath']: path }));
   }
   get rightOffset() {
     return this.isBackward ? this.anchorOffset : this.focusOffset;
   }
-  set rightOffset(offset) {
-    this[this.isBackward ? 'anchorOffset' : 'focusOffset'] = offset;
+  withRightOffset(offset) {
+    return new Selection(Object.assign({}, this, { [this.isBackward ? 'anchorOffset' : 'focusOffset']: offset }));
   }
 }
 
@@ -50,16 +50,17 @@ function arraysEqual(a1, a2) {
 }
 
 function transformSelectionTextOperation(selection, op, otTextOp) {
+  let result = selection;
   const otSelection = [selection.leftOffset, selection.rightOffset];
   const [left, right] = textType.type.transformSelection(otSelection, otTextOp, false);
 
   if (arraysEqual(op.path, selection.leftPath)) {
-    selection.leftOffset = left;
+    result = result.withLeftOffset(left);
   }
   if (arraysEqual(op.path, selection.rightPath)) {
-    selection.rightOffset = right;
+    result = result.withRightOffset(right);
   }
-  return selection;
+  return result;
 }
 
 function transformSelectionInsertText(selection, op) {
