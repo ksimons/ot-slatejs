@@ -2,14 +2,26 @@
   "name": "ot-slatejs",
   "version": "0.0.1",
   "description": "Operational Transformation type for using SlateJS together with ShareDB",
-  "main": "index.js",
-  "files": ["index.js"],
   "repository": "git@github.com:ksimons/ot-slatejs.git",
   "author": "Kevin Simons <kevin.b.simons@gmail.com>",
   "license": "MIT",
   "private": false,
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "jest",
+    "test-coverage": "jest --coverage"
+  },
   "dependencies": {
+    "debug": "^3.1.0",
     "immutable": "^3.8.2",
-    "slate": "^0.33.4"
+    "ot-text": "^1.0.1",
+    "slate": "^0.33.4",
+    "supports-color": "^5.3.0"
+  },
+  "devDependencies": {
+    "jest": "^22.4.3"
   }
 }
