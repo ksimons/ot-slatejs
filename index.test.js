@@ -2,12 +2,11 @@ const slateType = require('.');
 
 describe('transformSelection', () => {
   describe('text operations', () => {
-
     function insertText(offset, path = [0, 0]) {
       return {
         type: 'insert_text',
         path,
-        offset: offset,
+        offset,
         text: 'hello',
         marks: [],
       };
@@ -17,7 +16,7 @@ describe('transformSelection', () => {
       return {
         type: 'remove_text',
         path,
-        offset: offset,
+        offset,
         text: 'hello',
       };
     }
@@ -25,7 +24,9 @@ describe('transformSelection', () => {
     function selection(anchorOffset, focusOffset, anchorPath = [0, 0], focusPath = [0, 0]) {
       const anchorNode = anchorPath[0];
       const focusNode = focusPath[0];
-      const isBackward = anchorNode === focusNode ? focusOffset < anchorOffset : focusNode < anchorNode;
+      const isBackward = anchorNode === focusNode ?
+        focusOffset < anchorOffset :
+        focusNode < anchorNode;
       return {
         anchorPath,
         anchorOffset,
@@ -307,7 +308,6 @@ describe('transformSelection', () => {
   });
 
   describe('node operations', () => {
-
     describe('split_node', () => {
 
     });

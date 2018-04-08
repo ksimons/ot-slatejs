@@ -3,7 +3,14 @@ const debug = require('debug')('ot-slatejs');
 const textType = require('ot-text');
 
 class Selection {
-  constructor({ anchorPath, anchorOffset, focusPath, focusOffset, isBackward, isFocused }) {
+  constructor({
+    anchorPath,
+    anchorOffset,
+    focusPath,
+    focusOffset,
+    isBackward,
+    isFocused,
+  }) {
     this.anchorPath = anchorPath.slice(0);
     this.anchorOffset = anchorOffset;
     this.focusPath = focusPath.slice(0);
@@ -42,10 +49,9 @@ function arraysEqual(a1, a2) {
   return a1.length === a2.length && a1.every((value, index) => value === a2[index]);
 }
 
-function transformSelectionTextOperation(selection, op, otTextConversion) {
+function transformSelectionTextOperation(selection, op, otTextOp) {
   const otSelection = [selection.leftOffset, selection.rightOffset];
-  const otTextOperation = otTextConversion(op);
-  [left, right] = textType.type.transformSelection(otSelection, otTextOperation, false);
+  const [left, right] = textType.type.transformSelection(otSelection, otTextOp, false);
 
   if (arraysEqual(op.path, selection.leftPath)) {
     selection.leftOffset = left;
@@ -57,11 +63,11 @@ function transformSelectionTextOperation(selection, op, otTextConversion) {
 }
 
 function transformSelectionInsertText(selection, op) {
-  return transformSelectionTextOperation(selection, op, op => [op.offset, op.text]);
+  return transformSelectionTextOperation(selection, op, [op.offset, op.text]);
 }
 
 function transformSelectionRemoveText(selection, op) {
-  return transformSelectionTextOperation(selection, op, op => [op.offset, { d: op.text.length }]);
+  return transformSelectionTextOperation(selection, op, [op.offset, { d: op.text.length }]);
 }
 
 module.exports = {
@@ -89,6 +95,7 @@ module.exports = {
         default:
           debug(`Unsupported Slate operation type ${op.type}`);
       }
+      return selection;
     }, new Selection(selection));
     return Object.assign({}, result);
   },
